@@ -1,6 +1,6 @@
 defmodule Rfn do
   defmacro rfn(name, {:fn, meta, [c|_clauses]} = f) do
-    var = Macro.var(name, nil)
+    var = if is_atom(name), do: Macro.var(name, nil), else: name
     n = num_args(c)
     args = n_args(n, [])
     namedf = quote do
@@ -37,7 +37,7 @@ defmodule Rfn do
     args
   end
   defp n_args(n, args) do
-    n_args(n - 1, [Macro.var(String.to_atom("a#{n - 1}"), __MODULE__) | args])
+    n_args(n - 1, [Macro.var(:"a#{n - 1}", __MODULE__) | args])
   end
 
   defp num_args({:->, _, [fn_head | _fn_body]}) do

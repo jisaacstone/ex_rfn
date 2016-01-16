@@ -19,4 +19,13 @@ defmodule RfnTest do
     end
     assert bubbles.([[[:a], :b]], 7) == {4, :a}
   end
+
+  test "count" do
+    f = rfn count, fn
+      (_, [], c) -> c
+      (x, [x|t], c) -> count.(x, t, c + 1)
+      (x, [_|t], c) -> count.(x, t, c)
+    end
+    assert f.(:a, [:a, :b, :b, :a], 0) == 2
+  end
 end
