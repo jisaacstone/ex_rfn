@@ -5,10 +5,12 @@
 
 Recursion is the core of Elixir and Erlang code. But it is missing from anonymous functions.
 
-		iex(9)> sum = fn [] -> 0; [h|t] -> h + sum.(t) end
-		** (CompileError) iex:9: undefined function sum/0
-				(stdlib) lists.erl:1353: :lists.mapfoldl/3
-				(stdlib) lists.erl:1354: :lists.mapfoldl/3
+```
+iex(9)> sum = fn [] -> 0; [h|t] -> h + sum.(t) end
+** (CompileError) iex:9: undefined function sum/0
+		(stdlib) lists.erl:1353: :lists.mapfoldl/3
+		(stdlib) lists.erl:1354: :lists.mapfoldl/3
+```
 
 Why? In a match expression the right hand side is evaluated first, then matched to the left.
 So the variable `sum` has not yet been assigned a value when `fn [] -> 0; [h|t] -> h + sum.(t) end` is evaluated.
@@ -189,7 +191,7 @@ end
 
 testing it out:
 
-```
+```elixir
 iex> import Rfn
 nil
 iex> f = rfn count, fn
