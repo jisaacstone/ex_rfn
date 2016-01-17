@@ -224,5 +224,6 @@ Macros are hard. Even harder is manipulation the elixir abstract syntax tree. Th
 in different environments and different platforms. I already know many situations where the code given here will fail.
 For example it does not handle guard clauses.
 
-The first setp to writing relable macros is not to write them. If you really feel compelled you still should use `quote` and
-`unquote` instead for hand-rolling an abstract syntax tree.
+I've already found and fixed a few limitations not covered in the code given above. Look at the source [on github](https://github.com/jisaacstone/ex_rfn/blob/master/lib/rfn.ex) for more details and some working code. But I won't be publishing this to hex because I don't want anyone using it for anything important.
+
+Feel free to hit me up with quetions, comments or ways the code could be imporved. In particular I'm wondering if there is a way to achieve what `fn_ast` does using `quote` and `unquote`.
