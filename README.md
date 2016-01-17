@@ -39,7 +39,19 @@ Mathematicians and computer scientists have solved the problem of implementing r
 I am not a mathematician or a computer scientist but thanks to [The Little Schemer](https://mitpress.mit.edu/index.php?q=books/little-schemer) I know a bit
 about combinators anyway. And fortunatly others have already written some in elixir. [Here is a Y combinator](http://stackoverflow.com/a/25829932/579260), and [here is a Z combinator](https://github.com/Dkendal/exyz/blob/master/lib/exyz.ex)
 
-`exyz` is [available on hex](https://hex.pm/packages/exyz) and works like this:
+I will use the z combinator from `exyz` as a template. `exyz` is [available on hex](https://hex.pm/packages/exyz). It looks like this:
+
+```elixir
+def z_combinator f do
+  combinator = fn(x) ->
+    f.(fn(y) -> x.(x).(y) end)
+  end
+  combinator.(combinator)
+end
+```
+
+And works like this:
+
 ```elixir
 factorial = Exyz.z_combinator fn(f) ->
   fn
