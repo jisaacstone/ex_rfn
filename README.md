@@ -31,9 +31,9 @@ But thanks to macros we have the freedom to implement it ourselves.
 
 ## 3. Combinators
 
-Mathametitions and computer scientists have solved the problem of implementing recursion: [the fixed-point combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator)
+Mathematicians and computer scientists have solved the problem of implementing recursion: [the fixed-point combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator)
 
-I am not a mathameticion or a computer scientist but thanks to [The Little Schemer](https://mitpress.mit.edu/index.php?q=books/little-schemer) I know a bit
+I am not a mathematician or a computer scientist but thanks to [The Little Schemer](https://mitpress.mit.edu/index.php?q=books/little-schemer) I know a bit
 about combinators anyway. And anyway others have already written some in elixir. [Here is a Y combinator](http://stackoverflow.com/a/25829932/579260), and [here is a Z combinator](https://github.com/Dkendal/exyz/blob/master/lib/exyz.ex)
 
 exyz is also [available on hex](https://hex.pm/packages/exyz)
@@ -50,7 +50,7 @@ factorial.(5) == 120
 
 Beautiful. But it is limited. It can only handle functions with an arity of 1.
 
-(Note: this is all unneccisary. Don't use my code. Use exyz with a tuple argument instead)
+(Note: this is all unnecessary. Don't use my code. Use exyz with a tuple argument instead)
 
 ## 4. Plan
 
@@ -77,7 +77,7 @@ def z_combinator f do
 end
 ```
 
-After staring at it for a half hour I detemined I'd need to change all occurences
+After staring at it for a half hour I determined I'd need to change all occurrences
 of `y` to `y0, y1 ... yN` where `N == arity(f)`
 
 ## 5. Quote
@@ -157,7 +157,7 @@ Now we have a way to genereate a `fn` with arity `n` we can improve the z combin
 
 ```
 defmacro rfn(name, {:fn, meta, [c|_clauses]} = f) do
-  # nil here because we want this var accessable in fn f
+  # nil here because we want this var accessible in fn f
 	var = Macro.var(name, nil)
 	n = num_args(c)
 	args = gen_args(n, [])
@@ -212,5 +212,3 @@ For example it does not handle guard clauses.
 
 The first setp to writing relable macros is not to write them. If you really feel compelled you still should use `quote` and
 `unquote` instead for hand-rolling an abstract syntax tree.
-
-
