@@ -29,16 +29,17 @@ F = fun Fact(0) -> 1;
 ```
 
 But elixir core team has not yet finalized if or how they will include the same functionality.
-But thanks to macros we have the freedom to implement it ourselves.
+
+But there's no need to wait; using macros we can extend elixir syntax (almost) however we'd like.
 
 ## 3. Combinators
 
 Mathematicians and computer scientists have solved the problem of implementing recursion: [the fixed-point combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator)
 
 I am not a mathematician or a computer scientist but thanks to [The Little Schemer](https://mitpress.mit.edu/index.php?q=books/little-schemer) I know a bit
-about combinators anyway. And anyway others have already written some in elixir. [Here is a Y combinator](http://stackoverflow.com/a/25829932/579260), and [here is a Z combinator](https://github.com/Dkendal/exyz/blob/master/lib/exyz.ex)
+about combinators anyway. And fortunatly others have already written some in elixir. [Here is a Y combinator](http://stackoverflow.com/a/25829932/579260), and [here is a Z combinator](https://github.com/Dkendal/exyz/blob/master/lib/exyz.ex)
 
-exyz is also [available on hex](https://hex.pm/packages/exyz)
+`exyz` is [available on hex](https://hex.pm/packages/exyz) and works like this:
 ```elixir
 factorial = Exyz.z_combinator fn(f) ->
   fn
@@ -50,9 +51,10 @@ end
 factorial.(5) == 120
 ```
 
-Beautiful. But it is limited. It can only handle functions with an arity of 1.
+Beautiful. But it is limited: it can only handle functions with an arity of 1.
 
-(Note: this is all unnecessary. Don't use my code. Use exyz with a tuple argument instead)
+(This is not really a limitation. Using a list or tuple argument is natural and easy. But I wanted to try and improve it
+anyway)
 
 ## 4. Plan
 
@@ -157,10 +159,8 @@ end
 
 Now we have a way to genereate a `fn` with arity `n` we can improve the z combinator from before to handle `fn`s of any arity!
 
-```
-defmacro rfn(name, {:fn, meta, [c|_clauses]} = f) do
-  # nil here because we want this var accessible in fn f
-	var = Macro.var(name, nil)
+```elixir
+defmacro rfn(var, {:fn, meta, [c|_clauses]} = f) do
 	n = num_args(c)
 	args = gen_args(n, [])
 	namedf = quote do
